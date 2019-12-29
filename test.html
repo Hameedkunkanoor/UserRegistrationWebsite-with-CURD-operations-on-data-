@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title>Register</title>
+    </head>
+    <body>
+        <h2>Registration Page</h2><br>
+        <form action="register.php" method="POST">
+           Enter id: <input type="number" name="id" required="required" /> <br/>
+           Enter name: <input type="text" name="name" required="required" /> <br/>
+Enter contact: <input type="number" name="contact" /> <br/>
+           Enter branch: <input type="text" name="branch" /> <br/>
+           
+           <input type="submit" value="Register"/>
+        </form>
+    </body>
+</html>
+<?php
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+	$id = $_POST['id'];
+	$name = $_POST['name'];
+$contact=$_POST['contact'];
+	$branch = $_POST['branch'];
+    
+    $bool = true;
+	$con=mysqli_connect("localhost", "revathin","1");
+	mysqli_select_db($con,"student");
+	$query = mysqli_query($con,"Select * from student");
+	while($row = mysqli_fetch_array($query)) 
+	{
+		$table_id = $row['id']; 
+		if($id == $table_id) 
+		{
+			$bool = false; 
+			Print '<script>alert("ID already registered!");</script>'; 
+			Print '<script>window.location.assign("register.php");</script>'; 
+		}
+	}
+	if($bool) 
+	{
+		mysqli_query($con,"INSERT INTO student (id,name,contact,branch) VALUES ('$id','$name','$contact','$branch')"); 
+		Print '<script>alert("Successfully Registered!");</script>'; 
+		Print '<script>window.location.assign("register.php");</script>'; 
+	}
+}
+?>
+

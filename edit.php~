@@ -1,0 +1,77 @@
+<!Doctype html>
+<html>
+  <head>
+  <link rel='stylesheet' type="text/css" href="bootstrap.css">
+  </head>
+  <body style="background-color:white">
+	  
+  <div class="row" style="min-height:90px;background-color:#3A4DA1">
+      <h1 align="center" style="color:white"><b>Update Details</b></h1>
+</div>
+<div class="row" align="center">
+<div class="col-md-4"></div>
+<div class="col-md-4">
+      <form action="edit.php" method="POST">
+       <tr><br><br>
+           <b>Enter Id</b>
+           <th><input type="text" name="id" minlength="6" class="form-control input-md" value="<?php echo $_GET['id']; ?>"/></th><br>
+         </tr>
+         <tr>
+           <b>Enter Name</b>
+           <th><input type="text" name="name" minlength="6" class="form-control input-md" required="true"/></th><br>
+         </tr>
+         
+         <tr>
+           <b>Enter Branch </b>
+           <th><input type="text" name="branch" minlength="3" class="form-control input-md" required="true"/></th><br>
+         </tr>
+    
+         <tr>
+           <b>Enter PhoneNumber </b>
+           <th><input type="number" name="contact" maxlength="10" class="form-control input-md" required="true"/></th><br>
+         </tr>
+         <tr>
+           <b>Enter Email </b>
+           <th><input type="email" name="email" class="form-control input-md" required="true"/></th><br><br>
+         </tr>
+         <tr>
+           <th><input class="submit btn btn-lg btn-primary" name="submit"  type="submit" value="Update"></th>
+         </tr><br>
+      
+      </form></div>
+<div class="col-md-4"></div>
+
+
+<?php
+ $servername = "localhost";
+      $username = "root";
+      $password = "1";
+      $dbname = "student";
+      $conn = new mysqli($servername, $username, $password,$dbname);
+     
+      if ($conn->connect_error)
+       {
+         die("Connection failed: " . $conn->connect_error);
+       }
+	
+	 if(isset($_POST['submit']))
+     {
+$sid=$_POST["id"];
+		 $sname= $_POST["name"];
+       $sbranch =  $_POST["branch"];
+       
+       $spno =  $_POST["contact"];
+       $semail =  $_POST["email"];
+       
+       $sql = "update studentdetails set name = '".$sname."' , branch = '".$sbranch."' , email = '".$semail."' , contact = '".$spno."' where id = $sid ";
+               
+	if ($conn->query($sql)) {
+   $conn->close();
+	header('location:display.php');
+    exit;
+} else {
+    echo "Error updating record";
+}
+}
+
+?>
